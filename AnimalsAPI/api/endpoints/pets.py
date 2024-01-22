@@ -1,6 +1,5 @@
 from fastapi import Depends, HTTPException, APIRouter
 from sqlalchemy.orm import Session
-from core.crud.pets_crud import delete_pet
 from core.data.database import get_db
 from core.dtos.pet_dto import PetDto
 from core.crud import pets_crud
@@ -49,7 +48,7 @@ def delete_pets(ids: list[int], db: Session = Depends(get_db)):
     deleted_count = 0
     errors = []
     for pet_id in ids:
-        if delete_pet(db, pet_id):
+        if pets_crud.delete_pet(db, pet_id):
             deleted_count += 1
         else:
             errors.append({
